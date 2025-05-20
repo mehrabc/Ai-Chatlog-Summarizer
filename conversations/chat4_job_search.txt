@@ -1,0 +1,8 @@
+User: Can you help me write a resume?
+AI: Absolutely. What job are you applying for?
+User: A software engineer role.
+AI: Focus on technical skills like Python, JavaScript, and version control.
+User: Should I include my GitHub?
+AI: Yes, including a GitHub link demonstrates your coding skills and projects.
+User: How long should the resume be?
+AI: Ideally one page, but two pages is okay for experienced candidates.

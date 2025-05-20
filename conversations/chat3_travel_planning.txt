@@ -1,0 +1,8 @@
+User: I want to plan a trip to Italy.
+AI: Great choice! When are you planning to go?
+User: Sometime in June.
+AI: June is perfect for Italy. You’ll get sunny weather and vibrant festivals.
+User: What cities should I visit?
+AI: Rome, Florence, and Venice are must-see cities.
+User: Can you recommend affordable hotels?
+AI: Yes, there are many budget-friendly stays through Booking.com or Airbnb.

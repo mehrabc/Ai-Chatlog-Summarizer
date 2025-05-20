@@ -1,0 +1,8 @@
+User: Hey, what’s up?
+AI: Not much! Just ready to help. What’s on your mind?
+User: I heard it might rain. Is that true?
+AI: That depends on your location. Would you like the forecast?
+User: Yeah, but I might go hiking tomorrow.
+AI: Let me check. If there’s a chance of rain, bring waterproof gear.
+User: Good idea. What’s the best trail near me?
+AI: I can suggest one if you share your current city.

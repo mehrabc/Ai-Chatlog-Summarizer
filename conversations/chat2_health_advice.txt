@@ -1,0 +1,8 @@
+User: I’ve been feeling tired lately. What could be the cause?
+AI: Fatigue can be caused by many factors including stress, poor sleep, or anemia.
+User: Should I be concerned?
+AI: It’s best to consult a doctor for persistent fatigue to rule out serious conditions.
+User: What lifestyle changes can help?
+AI: Try maintaining a consistent sleep schedule, exercising, and staying hydrated.
+User: Can diet improve energy levels?
+AI: Yes, foods rich in iron, protein, and complex carbs can boost energy.
