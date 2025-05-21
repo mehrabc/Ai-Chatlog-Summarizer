@@ -23,15 +23,39 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Ai Chat Log Summarizer')
     parser.add_argument('--file', help='Path to chat log file')
-    # parser.add_argument('--folder', help='Folder path for batch summarization')
+    parser.add_argument('--folder', help='Folder path for batch summarization')
 
     args = parser.parse_args()
     
     ## Checking if the program are parsing the chatlog correctly.
     if args.file:
+        filename = os.path.basename(args.file)
         user_msgs, ai_msgs = parse_chat_log(args.file)
-        print("User Messages parsed in an array: ",user_msgs)
-        print("AI Messages parsed in an array: ",ai_msgs)
+        print(f"\n📄 File: {filename}")
+        print("👤 User Messages:")
+        for msg in user_msgs:
+            print(f"  - {msg}")
+
+        print("🤖 AI Messages:")
+        for msg in ai_msgs:
+            print(f"  - {msg}")
+    # Testing if the program can segregate multiple files together
+    elif args.folder:
+        for filename in os.listdir(args.folder):
+            if filename.endswith('.txt'):
+                filepath = os.path.join(args.folder, filename)
+                print(f"\n📄 File: {filename}")
+
+                user_msgs, ai_msgs = parse_chat_log(filepath)
+                print("👤 User Messages:")
+                for msg in user_msgs:
+                    print(f"  - {msg}")
+
+                print("🤖 AI Messages:")
+                for msg in ai_msgs:
+                    print(f"  - {msg}")
+
+
     else:
         print("Please provide a file to start summarizing.")
         
