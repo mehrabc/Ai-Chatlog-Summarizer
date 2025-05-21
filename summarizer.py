@@ -1,19 +1,24 @@
 import os
 import nltk
-
-# Force download of proper resources
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from collections import Counter
-import string
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
+
 # Part 1: Separating User and AI messages and storing inside distinct arrays
 def parse_chat_log(file_path):
+    """
+    Separating User and AI messages and storing inside distinct arrays for analyzing later.
+    """
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
     
@@ -37,6 +42,9 @@ def compute_exchanges(user_messages, ai_messages):
     return min(len(user_messages), len(ai_messages))
 
 def compute_message_statistics(user_messages, ai_messages):
+    """
+    Generating numerical conversation statistics
+    """
     total = len(user_messages) + len(ai_messages)
 
     return {
@@ -47,6 +55,9 @@ def compute_message_statistics(user_messages, ai_messages):
 
 #Extracting top keywords by tokenizing the words and removing the stop words("I","you","the" etc)
 def extract_top_keywords(user_messages, ai_messages, top_n=5):
+    """
+    Extracting top keywords
+    """
     all_text = ' '.join(user_messages + ai_messages)
     tokens = word_tokenize(all_text)
     tokens = [word for word in tokens if word.isalnum()]
@@ -60,8 +71,11 @@ def extract_top_keywords(user_messages, ai_messages, top_n=5):
 
 #tf-idf approach
 def extract_top_keywords_tfidf(user_messages, ai_messages, top_n=5):
+    """
+    Using tf-idf approach to extract keywords
+    """
     # Combine messages into a list of "documents"
-    documents = user_messages + ai_messages
+    documents = [f"{u} {a}" for u, a in zip(user_messages, ai_messages)]
     # Create TF-IDF Vectorizer (with English stopwords removed)
     vectorizer = TfidfVectorizer(stop_words='english')
     tfidf_matrix = vectorizer.fit_transform(documents)
@@ -74,6 +88,35 @@ def extract_top_keywords_tfidf(user_messages, ai_messages, top_n=5):
     # Sort by score and get top N
     top_keywords = sorted(term_scores, key=lambda x: x[1], reverse=True)[:top_n]
     return top_keywords
+
+def generate_summary(user_messages, ai_messages):
+        exchange_count = compute_exchanges(user_messages, ai_messages)
+        messages_count = compute_message_statistics(user_messages, ai_messages)
+        top_keywords = extract_top_keywords(user_messages,ai_messages)
+        top_keywords_tf_idf = extract_top_keywords_tfidf(user_messages,ai_messages)
+
+        print(f"🔁 Number of Exchanges: {exchange_count}")
+        print(f"🔁 Number of Messages: {messages_count}")
+        keyword_list = [word for word, _ in top_keywords]
+        keyword_list_tfidf = [word for word, _ in top_keywords_tf_idf]
+
+        print("Top 5 keywords (frequency-based): " + ", ".join(keyword_list) + ".")
+        print("Top 5 keywords (tf-idf): " + ", ".join(keyword_list_tfidf) + ".")
+
+        tfidf_list = [word for word, _ in top_keywords_tf_idf]
+        keywords_for_pos_tagging =" ".join(tfidf_list)
+        # Separating the keywords for pos tagging
+        tokens = word_tokenize(keywords_for_pos_tagging)
+        # Giving the token the parts of speech to identify the nouns
+        pos_included = nltk.pos_tag(tokens)
+        # Extracting the nouns to include them in the summary
+        summary_keyword_extraction = [word for word, tag in pos_included if tag.startswith("NN")]
+        selected_keywords = summary_keyword_extraction[:2]
+
+        summary = f"This conversation is about {' and '.join(selected_keywords)}."
+        print(summary.capitalize())
+
+
 
 # Main function
 if __name__ == '__main__':
@@ -89,29 +132,10 @@ if __name__ == '__main__':
     if args.file:
         filename = os.path.basename(args.file)
         user_msgs, ai_msgs = parse_chat_log(args.file)
-
-        print(f"\n📄 File: {filename}")
-        print("👤 User Messages:")
-
-        for msg in user_msgs:
-            print(f"  - {msg}")
-
-        print("🤖 AI Messages:")
-        for msg in ai_msgs:
-            print(f"  - {msg}")
+        generate_summary(user_msgs,ai_msgs)
         
-        exchange_count = compute_exchanges(user_msgs, ai_msgs)
-        messages_count = compute_message_statistics(user_msgs, ai_msgs)
-        top_keywords = extract_top_keywords(user_msgs,ai_msgs)
-        top_keywords_tf_idf = extract_top_keywords_tfidf(user_msgs,ai_msgs)
 
-        print(f"🔁 Number of Exchanges: {exchange_count}")
-        print(f"🔁 Number of Messages: {messages_count}")
-        keyword_list = [word for word, _ in top_keywords]
-        print("Top 5 keywords (frequency-based): " + ", ".join(keyword_list) + ".")
 
-        tfidf_list = [word for word, _ in top_keywords_tf_idf]
-        print("Top 5 keywords using TF-IDF are: " + ", ".join(tfidf_list) + ".")
 
     # Testing if the program can segregate multiple files together
     elif args.folder:
@@ -121,27 +145,8 @@ if __name__ == '__main__':
                 print(f"\n📄 File: {filename}")
 
                 user_msgs, ai_msgs = parse_chat_log(filepath)
-                print("👤 User Messages:")
-                for msg in user_msgs:
-                    print(f"  - {msg}")
+                generate_summary(user_msgs,ai_msgs)
 
-                print("🤖 AI Messages:")
-                for msg in ai_msgs:
-                    print(f"  - {msg}")
-
-                exchange_count = compute_exchanges(user_msgs, ai_msgs)
-                messages_count = compute_message_statistics(user_msgs, ai_msgs)
-                top_keywords = extract_top_keywords(user_msgs,ai_msgs)
-                top_keywords_tf_idf = extract_top_keywords_tfidf(user_msgs,ai_msgs)
-
-                print(f"🔁 Number of Exchanges: {exchange_count}")
-                print(f"🔁 Number of Messages: {messages_count}")
-
-                keyword_list = [word for word, _ in top_keywords]
-                print("Top 5 keywords (frequency-based): " + ", ".join(keyword_list) + ".")
-
-                tfidf_list = [word for word, _ in top_keywords_tf_idf]
-                print("Top 5 keywords using TF-IDF are: " + ", ".join(tfidf_list) + ".")
     else:
         print("Please provide a file to start summarizing.")
         

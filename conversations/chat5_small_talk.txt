@@ -1,5 +1,3 @@
-User: Hey, what’s up?
-AI: Not much! Just ready to help. What’s on your mind?
 User: I heard it might rain. Is that true?
 AI: That depends on your location. Would you like the forecast?
 User: Yeah, but I might go hiking tomorrow.
