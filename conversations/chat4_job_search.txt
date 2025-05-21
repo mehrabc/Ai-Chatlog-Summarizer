@@ -6,3 +6,7 @@ User: Should I include my GitHub?
 AI: Yes, including a GitHub link demonstrates your coding skills and projects.
 User: How long should the resume be?
 AI: Ideally one page, but two pages is okay for experienced candidates.
+User: Should I add any references in my resume?
+AI: Yes, adding references can boost your resume.
+User: I am confused about the skills section of my resume.
+AI: Skills sections can be challenging but crucial at the same time for the recruiter to know your knowledge on a particular technology. Do you want me to write a personalized skills section for you ?

@@ -6,3 +6,5 @@ User: Yeah, but I might go hiking tomorrow.
 AI: Let me check. If there’s a chance of rain, bring waterproof gear.
 User: Good idea. What’s the best trail near me?
 AI: I can suggest one if you share your current city.
+User: My current city is Chittagong, I just travelled here today.
+AI: According to your travel information, now I will share the optimal route for your hike according to the weather. 

@@ -17,6 +17,12 @@ def parse_chat_log(file_path):
     
     return user_messages, ai_messages
 
+# Calculating the number of exchanges for the summary statistic
+def compute_exchanges(user_messages, ai_messages):
+    """
+    Compute number of exchanges (1 user message + 1 AI response).
+    """
+    return min(len(user_messages), len(ai_messages))
 # Main function
 if __name__ == '__main__':
     import argparse
@@ -39,6 +45,9 @@ if __name__ == '__main__':
         print("🤖 AI Messages:")
         for msg in ai_msgs:
             print(f"  - {msg}")
+        
+        exchange_count = compute_exchanges(user_msgs, ai_msgs)
+        print(f"🔁 Number of Exchanges: {exchange_count}")
     # Testing if the program can segregate multiple files together
     elif args.folder:
         for filename in os.listdir(args.folder):
@@ -55,7 +64,8 @@ if __name__ == '__main__':
                 for msg in ai_msgs:
                     print(f"  - {msg}")
 
-
+                exchange_count = compute_exchanges(user_msgs, ai_msgs)
+                print(f"🔁 Number of Exchanges: {exchange_count}")
     else:
         print("Please provide a file to start summarizing.")
         
