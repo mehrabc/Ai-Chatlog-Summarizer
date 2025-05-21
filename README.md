@@ -13,7 +13,7 @@ This is a Python-based command-line tool that reads AI chat logs (in `.txt` form
 - Extracts **top keywords** using:
   - Frequency-based method
   - TF-IDF (Term Frequency–Inverse Document Frequency)
-- POS tagging to generate concise one-line summaries based on top **nouns**
+- POS tagging to generate concise one-line summaries based on top **nouns** identified by Parts of Speech Tagging
 - (BONUS): Batch processing for entire folders of chat logs
 - 
 ## 🧾 Sample Output:
