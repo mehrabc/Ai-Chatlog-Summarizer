@@ -1,4 +1,9 @@
 import os
+import nltk
+
+# Force download of proper resources
+nltk.download('punkt')
+nltk.download('stopwords')
 
 # Part 1: Separating User and AI messages and storing inside distinct arrays
 def parse_chat_log(file_path):
@@ -23,6 +28,16 @@ def compute_exchanges(user_messages, ai_messages):
     Compute number of exchanges (1 user message + 1 AI response).
     """
     return min(len(user_messages), len(ai_messages))
+
+def compute_message_statistics(user_messages, ai_messages):
+    total = len(user_messages) + len(ai_messages)
+
+    return {
+        'total': total,
+        'user': len(user_messages),
+        'ai': len(ai_messages)
+    }
+    
 # Main function
 if __name__ == '__main__':
     import argparse
@@ -47,7 +62,9 @@ if __name__ == '__main__':
             print(f"  - {msg}")
         
         exchange_count = compute_exchanges(user_msgs, ai_msgs)
+        messages_count = compute_message_statistics(user_msgs, ai_msgs)
         print(f"🔁 Number of Exchanges: {exchange_count}")
+        print(f"🔁 Number of Messages: {messages_count}")
     # Testing if the program can segregate multiple files together
     elif args.folder:
         for filename in os.listdir(args.folder):
@@ -65,7 +82,9 @@ if __name__ == '__main__':
                     print(f"  - {msg}")
 
                 exchange_count = compute_exchanges(user_msgs, ai_msgs)
+                messages_count = compute_message_statistics(user_msgs, ai_msgs)
                 print(f"🔁 Number of Exchanges: {exchange_count}")
+                print(f"🔁 Number of Messages: {messages_count}")
     else:
         print("Please provide a file to start summarizing.")
         
